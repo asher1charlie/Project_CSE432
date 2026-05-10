@@ -57,14 +57,14 @@ for i, row in df.iterrows():
     features = {}
 
     for j in range(13):
-        features[f"mfcc_mean_{j+1}"] = mfcc_mean[j]
-        features[f"mfcc_std_{j+1}"] = mfcc_std[j]
-        features[f"mfcc_delta_mean{j+1}"] = mfcc_delta_mean[j]
-        features[f"mfcc_delta_std_{j+1}"] = mfcc_delta_std[j]
+        features[f"mfcc_mean_{j+1}"]        = mfcc_mean[j]
+        features[f"mfcc_std_{j+1}"]         = mfcc_std[j]
+        features[f"mfcc_delta_mean{j+1}"]   = mfcc_delta_mean[j]
+        features[f"mfcc_delta_std_{j+1}"]   = mfcc_delta_std[j]
 
     for j in range(12):
-        features[f"chroma_mean_{j+1}"] = chroma_mean[j]
-        features[f"chroma_std_{j+1}"] = chroma_std[j]
+        features[f"chroma_mean_{j+1}"]  = chroma_mean[j]
+        features[f"chroma_std_{j+1}"]   = chroma_std[j]
 
     features["zcr_mean"]        = zcr_mean
     features["zcr_zcr"]         = zcr_std
