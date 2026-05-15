@@ -40,8 +40,11 @@ def precision_score(y_true, y_pred, average="macro"):
     for c in classes:
         tp = np.sum((y_pred == c) & (y_true == c))
         fp = np.sum((y_pred == c) & (y_true != c))
-        precisions.append(tp / (tp + fp))
+        precisions.append(tp / (tp + fp) if (tp + fp) > 0 else 0.0)
         supports.append(np.sum(y_true == c))
+
+    precisions = np.array(precisions)
+    supports   = np.array(supports)
 
     if average == "weighted":
         return np.sum(precisions * supports) / np.sum(supports)
@@ -62,8 +65,11 @@ def recall_score(y_true, y_pred, average="macro"):
     for c in classes:
         tp = np.sum((y_pred == c) & (y_true == c))
         fn = np.sum((y_pred != c) & (y_true == c))
-        recalls.append(tp / (tp + fn))
+        recalls.append(tp / (tp + fn) if (tp + fn) > 0 else 0.0)
         supports.append(np.sum(y_true == c))
+
+    recalls  = np.array(recalls)
+    supports = np.array(supports)
 
     if average == "weighted":
         return np.sum(recalls * supports) / np.sum(supports)
@@ -86,12 +92,15 @@ def f1_score(y_true, y_pred, average="macro"):
         fp = np.sum((y_pred == c) & (y_true != c))
         fn = np.sum((y_pred != c) & (y_true == c))
 
-        precision = tp / (tp + fp)
-        recall = tp / (tp / fn)
-        f1 = 2 * precision * recall / (precision + recall)
+        precision = tp / (tp + fp) if (tp + fp) > 0 else 0.0
+        recall    = tp / (tp + fn) if (tp + fn) > 0 else 0.0
+        f1 = 2 * precision * recall / (precision + recall) if (precision + recall) > 0 else 0.0
 
         f1s.append(f1)
         supports.append(np.sum(y_true == c))
+
+    f1s = np.array(f1s)
+    supports = np.array(supports)
 
     if average == "weighted":
         return np.sum(f1s * supports) / np.sum(supports)
